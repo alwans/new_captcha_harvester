@@ -1,26 +1,14 @@
 
 const {CaptchaHarvester} = require('./harvester');
 const express = require('express');
+const { infos,sitekey,captcha_url } = require('./data');
 const app = express();
 const port = 4399;
 const start = async function(){
 
-    let infos = [];
-	let info = {
-		gmail:'anthony6roberts65a@gmail.com',
-		password:'yC59P9DRxC',
-		proxy:'127.0.0.1:1080'
-	};
-	let info2 = {
-		gmail:'john8martins5t@gmail.com',
-		password:'6ajuRTLk6H',
-		proxy:'127.0.0.1:1080'
-	};
-	// infos.push(info2);
-	infos.push(info);
     // Initialize the harvester with the recaptcha site key and url that the recaptcha is located at.
 	// let harvester = new CaptchaHarvester('6LeWwRkUAAAAAOBsau7KpuC9AV-6J8mhw4AjC3Xz', 'https://www.supremenewyork.com/checkout');
-	let harvester = new CaptchaHarvester('6LcMVaUZAAAAAO9aTjQSJCPp8l7NAWtH-LaLi59v', 'http://hzmfzl.com/v2invisable.html');
+	let harvester = new CaptchaHarvester(sitekey, captcha_url);
     // Starting the harvester will open a google login page and save cookies if it hasn't been done previously. 
     // Returns an ID to reference the harvester page when harvesting and trying to get the token.
     var id_list = [];

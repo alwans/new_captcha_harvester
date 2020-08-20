@@ -71,11 +71,17 @@ class CaptchaHarvester {
                 // console.log(`${gmail.split('@')[0]} already have google cookies written.`);
                 return true;
             }
-            let browser = await firefox.launch({ 
-                headless: false,
-                proxy :proxy_obj
-            
-            });
+            let browser;
+            if(proxy_obj==''){
+                browser = await firefox.launch({ 
+                    headless: false
+                });
+            }else{
+                browser = await firefox.launch({ 
+                    headless: false,
+                    proxy :proxy_obj
+                });
+            }
             const context = await browser.newContext({
                 // httpCredentials: {
                 //     username: `w1luckw2662`,    
@@ -103,9 +109,15 @@ class CaptchaHarvester {
     async start_captcha_harvester(gmail,password,proxy) {
         const task_harvester = { uuid: this.uuidv4(), browser: null, captcha_page: null };
         try {
-            let  proxy_obj = this.formatProxy(proxy)
-            await this.login_to_google(gmail,password,proxy_obj);
-            let browser = await firefox.launch({ headless: false,proxy : proxy_obj });
+            let browser;
+            if(proxy==''){
+                await this.login_to_google(gmail,password,proxy);
+                browser = await firefox.launch({ headless: false});
+            }else{
+                let  proxy_obj = this.formatProxy(proxy)
+                await this.login_to_google(gmail,password,proxy_obj);
+                browser = await firefox.launch({ headless: false,proxy : proxy_obj });
+            }
             let captcha_page = await browser.newPage({ viewport: { width: 420, height: 700 } });
             let cookies = await restoreCookies(gmail.split('@')[0]);
             await captcha_page.context().addCookies(cookies);
