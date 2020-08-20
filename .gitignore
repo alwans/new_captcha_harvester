@@ -1,0 +1,4 @@
+proxies.txt
+node_modules/*
+.vscode/launch.json
+log.log
